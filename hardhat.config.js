@@ -1,11 +1,22 @@
-require("@nomicfoundation/hardhat-toolbox");
+const { mnemonic } = require('./.secrets.json')
+require("@nomiclabs/hardhat-ethers");
 
-// The next line is part of the sample project, you don't need it in your
-// project. It imports a Hardhat task definition, that can be used for
-// testing the frontend.
-require("./tasks/faucet");
-
-/** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
-  solidity: "0.8.17",
+  defaultNetwork: "polygon_mumbai",
+  networks: {
+    hardhat: {},
+    polygon_mumbai: {
+      url: "https://rpc-mumbai.maticvigil.com",
+      accounts: { mnemonic: mnemonic },
+    },
+  },
+  solidity: {
+    version: "0.8.9",
+    settings: {
+      optimizer: {
+        enabled: true,
+        runs: 200,
+      },
+    },
+  },
 };
