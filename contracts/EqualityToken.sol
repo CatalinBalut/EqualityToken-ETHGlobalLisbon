@@ -9,6 +9,8 @@ import { IWorldID } from "./interfaces/IWorldID.sol";
 contract EqualityToken is ERC20("EqualityToken", "EQUAL"){
     using ByteHasher for bytes;
 
+    event Onborded(address);
+
     /// @notice Thrown when attempting to reuse a nullifier
     error InvalidNullifier();
 
@@ -23,6 +25,8 @@ contract EqualityToken is ERC20("EqualityToken", "EQUAL"){
 
     /// @dev Whether a nullifier hash has been used already. Used to guarantee an action is only performed once by a single person
     mapping(uint256 => bool) internal nullifierHashes;
+
+    mapping(address => bool) public EqualityUsers;
 
     /// @param _worldId The WorldID instance that will verify the proofs
     /// @param _appId The World ID app ID
@@ -42,8 +46,7 @@ contract EqualityToken is ERC20("EqualityToken", "EQUAL"){
     /// @param root The root of the Merkle tree (returned by the JS widget).
     /// @param nullifierHash The nullifier hash for this proof, preventing double signaling (returned by the JS widget).
     /// @param proof The zero-knowledge proof that demonstrates the claimer is registered with World ID (returned by the JS widget).
-    /// @dev Feel free to rename this method however you want! We've used `claim`, `verify` or `execute` in the past.
-    function verifyAndExecute(
+    function claim(
         address signal,
         uint256 root,
         uint256 nullifierHash,
@@ -65,22 +68,13 @@ contract EqualityToken is ERC20("EqualityToken", "EQUAL"){
         // We now record the user has done this, so they can't do it again (proof of uniqueness)
         nullifierHashes[nullifierHash] = true;
 
-        // Finally, execute your logic here, for example issue a token, NFT, etc...
-        // Make sure to emit some kind of event afterwards!
+        require(EqualityUsers[msg.sender] == false, "ET: already claimed");
 
-        onboardEquality();//equality concept 
-    }
-
-    //Equality token part
-
-    function onboardEquality() private {
+        EqualityUsers[msg.sender] = true;
         _mint(msg.sender, 1);
-    }
 
-    function execute(address scontract, string calldata selector) public {
-        //verify if contract is IQuality
 
-        //low level to scontract
+        emit Onborded(msg.sender);
     }
 
 }
