@@ -71,7 +71,7 @@ contract EqualityToken is ERC20("EqualityToken", "EQUAL"){
         require(EqualityUsers[msg.sender] == false, "ET: already claimed");
 
         EqualityUsers[msg.sender] = true;
-        _mint(msg.sender, 1);
+        _mint(msg.sender, 1); //the entire philosophy
 
 
         emit Onborded(msg.sender);
