@@ -1,8 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.13;
 
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+//The only artwork I can do:
+// ⌐◨-◨
 
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import { ByteHasher } from "./helpers/ByteHasher.sol";
 import { IWorldID } from "./interfaces/IWorldID.sol";
 
@@ -12,7 +14,7 @@ contract EqualityToken is ERC20("EqualityToken", "EQUAL"){
     event Onborded(address);
 
     /// @notice Thrown when attempting to reuse a nullifier
-    error InvalidNullifier();
+    error InvalidNullifier(); 
 
     /// @dev The World ID instance that will be used for verifying proofs
     IWorldID internal immutable worldId;
